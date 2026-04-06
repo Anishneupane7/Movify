@@ -21,7 +21,7 @@ const MoviesDetails = () => {
           </svg>
         </button>
         {/*Conditional Rendering  */}
-        <div className="flex items-center justify-center h-196">
+        <div className="flex items-center justify-center h-96">
           <div className="animate-pulse">
             <div className="w-16 h-16 border border-purple-500 border-t-transparent rounded-full animate-spin">
               <p>Loading Details.............</p>
@@ -232,7 +232,47 @@ const MoviesDetails = () => {
                           Movie Average
                         </span>
                       </div>
+                      <div>
+                        <p className="text-neutral-300">Votes</p>
+                        <div className="w-full bg-neutral-700 rounded-full h-2.5 mt-2">
+                          <div className="bg-purple-600 h-2.5 rounded-full"></div>
+                        </div>
+                      </div>
                     </div>
+                    {/* Else */}
+                    <p className="text-neutral-400">No Rating Available</p>
+                  </div>
+
+                  {/* IMDB and Homepage Link */}
+                  <div className="mt-8 space-y-4">
+                    <a
+                      href="#"
+                      className="inline-flex items-center bg-neutral-700 hover:bg-neutral-680 text-white px-4 py-2 rounnded transition-all"
+                    >
+                      <svg
+                        xmlns="https://www.w3.org/2000/svg"
+                        className="h-5 w-5 mr-2"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                        />
+                      </svg>
+                      Official Website
+                    </a>
+
+                    {/* Conditional Rendering */}
+                    <a
+                      href=""
+                      className="inline-flex items-center bg-yellow-700 hover:bg-yellow-600 text-white px-3 py-2 rounded transition-colors"
+                    >
+                      View on IMDB
+                    </a>
                   </div>
                 </div>
               </div>
@@ -245,4 +285,3 @@ const MoviesDetails = () => {
 };
 
 export default MoviesDetails;
-//Video Start in 50:27

@@ -1,5 +1,7 @@
+import Footer from "./components/Footer";
 import MovieContent from "./components/MovieContent";
 import Navbar from "./components/Navbar";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   return (
@@ -8,6 +10,8 @@ const App = () => {
       <main>
         <MovieContent />
       </main>
+      <Footer />
+      <ScrollToTop />
     </div>
   );
 };

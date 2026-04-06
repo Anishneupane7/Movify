@@ -13,7 +13,7 @@ const MovieContent = () => {
         <GenreSection />
       </div>
       {/* Conditional Rendering */}
-      <MoviesDetails />
+      {/* <MoviesDetails /> */}
     </>
   );
 };
