@@ -44,7 +44,7 @@ const HeroSection = () => {
                   </>
                   {/* Coditional Rendering Close */}
                 </div>
-                <h1 className="text-4xl md:text-6xl ont-bold text-white mb-4">
+                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
                   Movies Title
                 </h1>
                 <p className="text-neutral-300 text-base md:text-lg mb-8 line-clamp-3 md:line-clamp-4 max-w-2xl">
@@ -90,7 +90,7 @@ const HeroSection = () => {
           {/* Pagination */}
           <div className="absolute bottom-10 left-0 right-0 flex justify-center gap-2 z-10">
             {/* Conditional Rendering */}
-            <button className={`h-1.5 rounded-full transition-all`}>hii</button>
+            <button className={`h-1.5 rounded-full transition-all `}></button>
           </div>
         </div>
       </div>

@@ -22,7 +22,7 @@ const GenreSection = () => {
         {/* Conditional Rendering */}
         <div className="h-64 flex items-center justify-center">
           <div className="animate-pulse">
-            <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-12 h-12 border-4  border-purple-500 border-t-transparent rounded-full animate-spin "></div>
           </div>
         </div>
         {/* Else */}

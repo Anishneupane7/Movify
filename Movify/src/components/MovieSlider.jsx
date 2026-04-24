@@ -53,21 +53,21 @@ const MovieSlider = () => {
         </div>
 
         {/* Movie Slider */}
-        <div className="relative">
-          <div className="flex space-x-4 overflow-x-hidden scrollbar-hide pb-4 snap-x">
-            <div className="min-w-[200px] md:min-w-[240px] snap-start relative group cursor-pointer">
-              <div className="rounnded-lg overflow-hidden bg-neutral-800">
-                <div className="relative aspect-[2/3]">
+        <div className="relative ">
+          <div className="flex space-x-4 overflow-x-hidden scrollbar-hide pb-4 snap-x ">
+            <div className="min-w-[200px] md:min-w-[240px] snap-start relative group cursor-pointer ">
+              <div className="rounded-lg overflow-hidden bg-neutral-800 ">
+                <div className="relative aspect-2/3">
                   <img
                     src="/"
                     alt=""
-                    className="w-full h-full oject-cover transition-all duration-300 group-hover:scale-110 group-hover:opacity-35"
+                    className="w-full h-full object-cover transition-all duration-300 group-hover:scale-110 group-hover:opacity-35"
                   />
                   {/* Hover Overlay */}
                   <div
-                    className={`absolute inset-0 not-only-of-type:bg-gradient-to-t from-neutral-900/90 via-neutral-900/40 to-transparent flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-all duration-300`}
+                    className={`absolute inset-0 not-only-of-type:bg-linear-to-t from-neutral-900/90 via-neutral-900/40 to-transparent flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-all duration-300`}
                   >
-                    <div className="transform translate-y-4 group-hover:translate-y-0 trasition-transform duration-300 space-y-3">
+                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 space-y-3">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-1">
                           <svg
