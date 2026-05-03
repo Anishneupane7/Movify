@@ -5,6 +5,7 @@ import {
   fetchTopRatedrMovies,
   fetchTrendingMovies,
 } from "../services/api";
+import { useState } from "react";
 
 const MoviesContext = createContext();
 export const useMovies = () => useContext(MoviesContext);
@@ -40,6 +41,32 @@ export const MoviesProvider = ({ children }) => {
     };
     fetchMovieData();
   }, []);
-};
 
-//1:23:50
+  const openMoviesDetails = (moviesId) => {
+    selectedMovieId(moviesId);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeMovieDetails = () => {
+    setSelectedMovieId(null);
+    document.body.style.overflow = "";
+  };
+
+  return (
+    <MoviesContext
+      value={{
+        trendingMovies,
+        popularMovies,
+        topRatedMovies,
+        genres,
+        loading,
+        error,
+        selectedMovieId,
+        openMoviesDetails,
+        closeMovieDetails,
+      }}
+    >
+      {children}
+    </MoviesContext>
+  );
+};
