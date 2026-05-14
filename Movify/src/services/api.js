@@ -1,5 +1,5 @@
 const API_KEY = "61cafe27fe0a34e65a23757b9264be83";
-const BASE_URL = "https://www.themoviedb.org/3";
+const BASE_URL = "https://api.themoviedb.org/3";
 
 export const fetchTrendingMovies = async () => {
   try {
@@ -100,7 +100,8 @@ export const searchMovies = async (query) => {
 
 export const getImageURL = (path, size = "original") => {
   if (!path) {
-    return "https://via.placeholder.com/400*600?text=No+image+Available";
-    return `https://image.imdb.org/t/p/${size}${path}`;
+    return "https://placehold.co/400x600?text=No+Image";
   }
+
+  return `https://image.tmdb.org/t/p/${size}${path}`;
 };

@@ -22,7 +22,7 @@ export const MoviesProvider = ({ children }) => {
   useEffect(() => {
     const fetchMovieData = async () => {
       try {
-        setLoading(ture);
+        setLoading(true);
         const [trending, popular, topRated, genreList] = await Promise.all([
           fetchTrendingMovies(),
           fetchPopularMovies(),
