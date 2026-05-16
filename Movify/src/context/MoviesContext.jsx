@@ -43,7 +43,7 @@ export const MoviesProvider = ({ children }) => {
   }, []);
 
   const openMoviesDetails = (moviesId) => {
-    selectedMovieId(moviesId);
+    setSelectedMovieId(moviesId);
     document.body.style.overflow = "hidden";
   };
 
@@ -53,7 +53,7 @@ export const MoviesProvider = ({ children }) => {
   };
 
   return (
-    <MoviesContext
+    <MoviesContext.Provider
       value={{
         trendingMovies,
         popularMovies,
@@ -67,6 +67,6 @@ export const MoviesProvider = ({ children }) => {
       }}
     >
       {children}
-    </MoviesContext>
+    </MoviesContext.Provider>
   );
 };

@@ -82,7 +82,7 @@ const HeroSection = () => {
                   {/* Coditional Rendering Close */}
                   <span className="text-neutral-400">.</span>
                   <span className="text-neutral-300 text-sm">
-                    {currentMovie?.release_data?.substring(0, 4) || "N/A"}
+                    {currentMovie?.release_date?.substring(0, 4) || "N/A"}
                   </span>
                   {/* Conditional Rendering */}
                   {currentMovie?.adult && (
@@ -100,7 +100,7 @@ const HeroSection = () => {
                   {currentMovie?.title}
                 </h1>
                 <p className="text-neutral-300 text-base md:text-lg mb-8 line-clamp-3 md:line-clamp-4 max-w-2xl">
-                  {currentMovie?.overView}
+                  {currentMovie?.overview}
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <button className="bg-purple-500 hover:bg-purple-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-all">

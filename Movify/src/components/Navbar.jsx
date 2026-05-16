@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useMovies } from "../context/MoviesContext";
 import { useRef } from "react";
+import { getImageURL, searchMovies } from "../services/api";
 
 const Navbar = () => {
+  const { openMovieDetails } = useMovies();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -18,10 +20,58 @@ const Navbar = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  });
+  }, []);
+
+  useEffect(() => {
+    const handleSearch = async () => {
+      if (searchQuery.trim().length > 2) {
+        setIsSearching(true);
+        try {
+          const result = await searchMovies(searchQuery);
+          setSearchResult(result ? result.slice(0, 5) : []);
+        } catch (error) {
+          console.error("Error Searching Movies :", error);
+        } finally {
+          setIsSearching(false);
+          setShowSearchReasult(true);
+        }
+      } else {
+        setSearchResult([]);
+        setShowSearchReasult(false);
+      }
+    };
+    const debounceTimer = setTimeout(() => {
+      handleSearch();
+    }, 500);
+
+    return () => {
+      clearTimeout(debounceTimer);
+    };
+  }, [searchQuery]);
+
+  const handleSearchFocus = () => {
+    if (searchQuery.trim().length > 2 && searchResult.length > 0) {
+      setShowSearchReasult(true);
+    }
+  };
+
+  const handleClickSide = (e) => {
+    if (
+      searchContainerRef.current &&
+      !searchConatinerRef.current.contains(e.target)
+    ) {
+      setShowSearchReasult(false);
+    }
+  };
+
+  const handleMovieSelect = (movieId) => {
+    openMovieDetails(movieId);
+    setShowSearchReasult(false);
+    setSearchQuery("");
+  };
   return (
     <header
-      className={`flex w-full z-50 transition-all duration-300 ${isScrolled ? "bg-neutral-900/50 backdrop-blur-md shadow-lg" : "bg-transparent"}`}
+      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? "bg-neutral-900/50 backdrop-blur-md shadow-lg" : "bg-transparent"}`}
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
@@ -68,6 +118,9 @@ const Navbar = () => {
             <div className="relative">
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={handleSearchFocus}
                 placeholder="search movies....."
                 className="bg-neutral-800 text-white px-4 py-2 rounded-full text-sm w-48 focus:w-64 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
               />
@@ -119,31 +172,42 @@ const Navbar = () => {
             {showSearchResult && searchResult && searchResult.length > 0 && (
               <div className="absolute right-0 mt-2 w-72 max-w-[90vw] bg-neutral-800 rounded-lg shadow-xl overflow-hidden z-50">
                 <ul className="divide-y divide-neutral-700">
-                  <li className="hover:bg-neutral-700">
-                    <button className="flex items-center p-3 w-full text-left">
-                      <div className="w-10 h-10 bg-neutral-700 rounded overflow-hidden shrink-0">
-                        {/* Conditional Rendering */}
-                        <img
-                          src="/"
-                          alt=""
-                          className="w-full h-full object-cover"
-                        />
-                        {/* Else */}
-                        <div className="w-full h-full flex items-center justify-center text-neutral-500 text-xs">
-                          No Image
-                        </div>
-                      </div>
+                  {searchResult.map((movie) => {
+                    return (
+                      <li className="hover:bg-neutral-700">
+                        <button
+                          className="flex items-center p-3 w-full text-left"
+                          onClick={() => handleMovieSelect(movie.id)}
+                        >
+                          <div className="w-10 h-10 bg-neutral-700 rounded overflow-hidden shrink-0">
+                            {/* Conditional Rendering */}
+                            {movie.poster_path ? (
+                              <img
+                                src={getImageURL(movie.poster_path, "w92")}
+                                alt=""
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-neutral-500 text-xs">
+                                No Image
+                              </div>
+                            )}
 
-                      <div className="ml-3 flex-1">
-                        <p className="text-sm font-medium text-white truncate">
-                          Movie Title
-                        </p>
-                        <p className="text-xs text-neutral-400">
-                          Movie Relase Date
-                        </p>
-                      </div>
-                    </button>
-                  </li>
+                            {/* Else */}
+                          </div>
+
+                          <div className="ml-3 flex-1">
+                            <p className="text-sm font-medium text-white truncate">
+                              {movie.title}
+                            </p>
+                            <p className="text-xs text-neutral-400">
+                              {movie.release_date?.split("-")[0] || "N/A"}
+                            </p>
+                          </div>
+                        </button>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             )}
@@ -212,25 +276,31 @@ const Navbar = () => {
             </a>
             <a
               href="#trending"
-              className="text-white hover:text-purple-400 transition-all font-medium"
+              className="block text-white hover:text-purple-400 transition-all font-medium"
             >
               Trending
             </a>
             <a
               href="#popular"
-              className="text-white hover:text-purple-400 transition-all font-medium"
+              className="block text-white hover:text-purple-400 transition-all font-medium"
             >
               Popular
             </a>
             <a
               href="#top-rated "
-              className="text-white hover:text-purple-400 transition-all font-medium"
+              className="block text-white hover:text-purple-400 transition-all font-medium"
             >
               Top Rated
             </a>
-            <div className="relative mt-3 search-container">
+            <div
+              className="relative mt-3 search-container"
+              ref={searchContainerRef}
+            >
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={handleSearchFocus}
                 placeholder="search movies....."
                 className="bg-neutral-800 text-white px-4 py-2 rounded-full text-sm w-48 focus:w-64 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
               />
@@ -280,30 +350,34 @@ const Navbar = () => {
                 <div className="absolute mt-2 w-full bg-neutral-800  rounded-lg shadow-lg overflow-hidden z-50">
                   <ul className="divide-y divide-neutral-700">
                     {/* Map Method */}
-                    <li className="hover:bg-neutral700">
-                      <button className="flex items-center p-3 w-full text-left">
-                        <div className="w-10 h-14 bg-neutral-700 rounded-full overflow-hidden shrink-0">
-                          {/* Conditional Rendering */}
-                          <img
-                            src="/"
-                            alt=""
-                            className="w-full h-full object-cover"
-                          />
-                          {/* Else */}
-                          <div className="w-full h-full flex items-center justfy-center text-neutral-500 text-xs">
-                            No image
-                          </div>
-                        </div>
-                        <div className="ml-3 flex-1">
-                          <p className="text-sm font-medium text-white truncate">
-                            Movies Title
-                          </p>
-                          <p className="text-xs text-neutral-400">
-                            Movies release date
-                          </p>
-                        </div>
-                      </button>
-                    </li>
+                    {searchResult.map((movie) => {
+                      return (
+                        <li className="hover:bg-neutral-700">
+                          <button className="flex items-center p-3 w-full text-left">
+                            <div className="w-10 h-14 bg-neutral-700 rounded-full overflow-hidden shrink-0">
+                              {/* Conditional Rendering */}
+                              <img
+                                src={getImageURL(movie.poster_path, "w92")}
+                                alt=""
+                                className="w-full h-full object-cover"
+                              />
+                              {/* Else */}
+                              <div className="w-full h-full flex items-center justfy-center text-neutral-500 text-xs">
+                                No image
+                              </div>
+                            </div>
+                            <div className="ml-3 flex-1">
+                              <p className="text-sm font-medium text-white truncate">
+                                {movie.title}
+                              </p>
+                              <p className="text-xs text-neutral-400">
+                                {movie.release_date?.split("-")[0] || "N/A"}
+                              </p>
+                            </div>
+                          </button>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               )}
@@ -328,4 +402,4 @@ const Navbar = () => {
 
 export default Navbar;
 
-// start time 1:45:50
+// start time 3:18:40

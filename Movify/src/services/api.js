@@ -45,11 +45,11 @@ export const fetchTopRatedrMovies = async () => {
 export const fetchMoviesByGenre = async (genreId) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&with_genre=${genreId}&page=1`,
+      `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=${genreId}&page=1`,
     );
 
     const data = await response.json();
-    return data.result;
+    return data.results;
   } catch (error) {
     console.error("Error Featching trending movies", error);
     return [];
@@ -73,14 +73,14 @@ export const fetchGenres = async () => {
 export const fetchMovieDetails = async (movieId) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/genre/${movieId}?api_key=${API_KEY}&language=en-US`,
+      `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US`,
     );
 
     const data = await response.json();
     return data;
   } catch (error) {
     console.error("Error Featching trending movies", error);
-    return [];
+    return null;
   }
 };
 
@@ -91,7 +91,7 @@ export const searchMovies = async (query) => {
     );
 
     const data = await response.json();
-    return data.result;
+    return data.results;
   } catch (error) {
     console.error("Error Featching trending movies", error);
     return [];
