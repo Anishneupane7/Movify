@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { getImageURL, searchMovies } from "../services/api";
 
 const Navbar = () => {
-  const { openMovieDetails } = useMovies();
+  const { openMoviesDetails } = useMovies();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -65,13 +65,14 @@ const Navbar = () => {
   };
 
   const handleMovieSelect = (movieId) => {
-    openMovieDetails(movieId);
+    openMoviesDetails(movieId);
     setShowSearchReasult(false);
     setSearchQuery("");
   };
+
   return (
     <header
-      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? "bg-neutral-900/50 backdrop-blur-md shadow-lg" : "bg-transparent"}`}
+      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? "bg-neutral-900/50 backdrop-blur-md shadow-lg" : "bg-transparent "}`}
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
@@ -84,7 +85,7 @@ const Navbar = () => {
             </a>
           </div>
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex space-x-8 ">
             <a
               href="#"
               className="text-white hover:text-purple-400 transition-all font-medium"
@@ -112,17 +113,17 @@ const Navbar = () => {
           </nav>
           {/* Desktop Search */}
           <div
-            className=" md:block relative search-container"
+            className="hidden md:block relative search-container"
             ref={searchContainerRef}
           >
-            <div className="relative">
+            <div className="relative  ">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={handleSearchFocus}
                 placeholder="search movies....."
-                className="bg-neutral-800 text-white px-4 py-2 rounded-full text-sm w-48 focus:w-64 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                className="bg-neutral-800 text-white px-4 py-2 rounded-full text-sm w-48 focus:w-64 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 "
               />
 
               {/* Conditional Rendering */}
@@ -174,7 +175,7 @@ const Navbar = () => {
                 <ul className="divide-y divide-neutral-700">
                   {searchResult.map((movie) => {
                     return (
-                      <li className="hover:bg-neutral-700">
+                      <li key={movie.id} className="hover:bg-neutral-700">
                         <button
                           className="flex items-center p-3 w-full text-left"
                           onClick={() => handleMovieSelect(movie.id)}
@@ -227,7 +228,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white"
+            className="md:hidden text-white "
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {/* Conditional Rendering */}
@@ -302,7 +303,7 @@ const Navbar = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={handleSearchFocus}
                 placeholder="search movies....."
-                className="bg-neutral-800 text-white px-4 py-2 rounded-full text-sm w-48 focus:w-64 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                className="bg-neutral-800 text-white px-4 py-2 rounded-full text-sm w-48 focus:w-64 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 "
               />
 
               {/* Conditional Rendering */}
@@ -332,7 +333,7 @@ const Navbar = () => {
               ) : (
                 <svg
                   xmlns="https://www.w3.org/2000/svg"
-                  className="h-4 w-4 absolute right-3 top-3 text-neutral-400"
+                  className="h-4 w-4 absolute left-41 top-2.5 text-neutral-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -401,5 +402,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-// start time 3:18:40

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { getImageURL } from "../services/api";
 import { useMovies } from "../context/MoviesContext";
+import MoviesDetails from "./MoviesDetails";
 
 const MovieSlider = ({ title, movies, subtitle = "" }) => {
   const sliderRef = useRef(null);
@@ -107,7 +108,7 @@ const MovieSlider = ({ title, movies, subtitle = "" }) => {
                   key={movie.id}
                   onMouseEnter={() => setHoverMovieId(movie.id)}
                   onMouseLeave={() => setHoverMovieId(null)}
-                  onClick={() => setHoverMovieId(movie.id)}
+                  onClick={() => handleMovieClick(movie.id)}
                 >
                   <div className="rounded-lg overflow-hidden bg-neutral-800 ">
                     <div className="relative aspect-2/3">
